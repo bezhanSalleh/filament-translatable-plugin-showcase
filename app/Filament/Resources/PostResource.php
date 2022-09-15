@@ -48,7 +48,9 @@ class PostResource extends Resource
         return $table
             ->columns([
                 TextColumn::make('title'),
-                BooleanColumn::make('published_at')
+                BooleanColumn::make('is_published')
+                    ->label('Is Published?')
+                    ->getStateUsing(fn($record) => filled($record->published_at) ? true : false)
                     ->trueIcon('heroicon-o-badge-check')
                     ->falseIcon('heroicon-o-x-circle')
                     ->trueColor('success')
