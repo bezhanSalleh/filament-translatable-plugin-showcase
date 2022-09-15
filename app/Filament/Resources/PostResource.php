@@ -2,22 +2,30 @@
 
 namespace App\Filament\Resources;
 
-use App\Filament\Resources\PostResource\Pages;
-use App\Filament\Resources\PostResource\RelationManagers;
-use App\Models\Post;
 use Filament\Forms;
-use Filament\Resources\Concerns\Translatable;
-use Filament\Resources\Form;
-use Filament\Resources\Resource;
-use Filament\Resources\Table;
+use App\Models\Post;
 use Filament\Tables;
+use Filament\Resources\Form;
+use Filament\Resources\Table;
+use Faker\Provider\ar_SA\Text;
+use Filament\Resources\Resource;
+use Filament\Forms\Components\Card;
+use Filament\Forms\Components\Textarea;
+use Filament\Tables\Columns\TextColumn;
+use Filament\Forms\Components\TextInput;
+use Filament\Tables\Columns\BadgeColumn;
+use Filament\Forms\Components\RichEditor;
 use Illuminate\Database\Eloquent\Builder;
+use Filament\Tables\Columns\BooleanColumn;
+use Filament\Resources\Concerns\Translatable;
+use App\Filament\Resources\PostResource\Pages;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use App\Filament\Resources\PostResource\RelationManagers;
 
 class PostResource extends Resource
 {
     use Translatable;
-    
+
     protected static ?string $model = Post::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-collection';
@@ -26,7 +34,12 @@ class PostResource extends Resource
     {
         return $form
             ->schema([
-                //
+                Card::make()
+                    ->schema([
+                        TextInput::make('title'),
+                        RichEditor::make('body'),
+                    ])
+                    ->inlineLabel()
             ]);
     }
 
@@ -34,7 +47,12 @@ class PostResource extends Resource
     {
         return $table
             ->columns([
-                //
+                TextColumn::make('title'),
+                BooleanColumn::make('published_at')
+                    ->trueIcon('heroicon-o-badge-check')
+                    ->falseIcon('heroicon-o-x-circle')
+                    ->trueColor('success')
+                    ->falseColor('warning'),
             ])
             ->filters([
                 //

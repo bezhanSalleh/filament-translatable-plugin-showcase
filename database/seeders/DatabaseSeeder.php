@@ -22,10 +22,21 @@ class DatabaseSeeder extends Seeder
                     'email' => 'admin@test.com',
                 ]);
         }
-        Post::factory(10)->create();
-        Post::factory(10)
-            ->create([
-                'published_at' => null
+        for ($i=0; $i < 10; $i++) {
+            Post::create([
+                'title' => [
+                    'en' => fake()->realText(10),
+                    'fr' => fake('fr_FR')->realText(10),
+                    'es' => fake('es_ES')->realText(10),
+                    'ar' => fake('ar_SA')->realText(10),
+                ],
+                'body' => [
+                    'en' => fake()->realText(250),
+                    'fr' => fake('fr_FR')->realText(250),
+                    'es' => fake('es_ES')->realText(250),
+                    'ar' => fake('ar_SA')->realText(250)
+                ],
             ]);
+        }
     }
 }
